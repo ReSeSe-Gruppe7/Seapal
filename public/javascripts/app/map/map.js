@@ -68,13 +68,18 @@ function initialize() {
 
     // set different map types
     var mapTypeIds = ["roadmap", "satellite", "OSM"];
-
+    var crosshairShape = {coords:[0,0,0,0],type:'rect'};
+   
     // set map Options
     var mapOptions = {
         center: new google.maps.LatLng(47.65521295468833, 9.2010498046875),
-        zoom: 14,
+        zoom: 12,
+        zoomControl: true,
+        panControl: true,
         mapTypeId: google.maps.MapTypeId.ROADMAP,
+        draggableCursor:'crosshair',
         mapTypeControlOptions: {
+            style:google.maps.MapTypeControlStyle.DROPDOWN_MENU,
             mapTypeIds: mapTypeIds
         },
         disableDefaultUI: true,
@@ -92,7 +97,31 @@ function initialize() {
     document.getElementById('chat').style.display = "none";
 
     // initialize map
-    map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+    map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions); 
+map.mapTypes.set("OSM", new google.maps.ImageMapType({
+        getTileUrl: function (coord, zoom) {
+            return "http://tile.openstreetmap.org/" + zoom + "/" + coord.x + "/" + coord.y + ".png";
+        },
+        tileSize: new google.maps.Size(256, 256),
+        name: "OpenStreetMap",
+        maxZoom: 18
+    }));
+    var marker = new google.maps.Marker({
+        map: map,
+        icon: 'http://www.daftlogic.com/images/cross-hairs.gif',
+        shape: crosshairShape
+    });
+    
+    
+
+    marker.bindTo('position', map, 'center');  
+    var weatherLayer = new google.maps.weather.WeatherLayer({
+        temperatureUnits: google.maps.weather.TemperatureUnit.CELSIUS
+    });
+    weatherLayer.setMap(map);  
+
+    var cloudLayer = new google.maps.weather.CloudLayer();
+    cloudLayer.setMap(map);   
     
     // set client position
     currentPosition = new google.maps.LatLng(47.65521295468833, 9.2010498046875)
@@ -102,32 +131,25 @@ function initialize() {
         map: map,
         icon: currentPositionMarkerImage
     }
-
+ 
     // initialize marker for current position
 
     currentPositionMarker = new google.maps.Marker(currentMarkerOptions);
 
     // set map types
-    map.mapTypes.set("OSM", new google.maps.ImageMapType({
-        getTileUrl: function (coord, zoom) {
-            return "http://tile.openstreetmap.org/" + zoom + "/" + coord.x + "/" + coord.y + ".png";
-        },
-        tileSize: new google.maps.Size(256, 256),
-        name: "OpenStreetMap",
-        maxZoom: 18
-    }));
-
     google.maps.event.addListener(currentPositionMarker, 'position_changed', function () {
-        
+           //Send Position to OpenSeemapApi
+           
         if (followCurrentPosition) {
             map.setCenter(currentPositionMarker.getPosition());
+
         }
         
         if (currentMode == MODE.NAVIGATION) {
             updateNavigation(currentPositionMarker.position, destinationMarker.position);
         }
     });
-
+getWeatherInfofromPosition(map.getCenter().toUrlValue());
     map.overlayMapTypes.push(new google.maps.ImageMapType({
         getTileUrl: function (coord, zoom) {
             return "http://tiles.openseamap.org/seamark/" + zoom + "/" + coord.x + "/" + coord.y + ".png";
@@ -159,6 +181,11 @@ function initialize() {
         }
     });
 }
+
+google.maps.event.addDomListener(window, 'load', initialize);
+
+
+
 
 // temporary marker context menu ----------------------------------------- //
 $(function () {
@@ -371,4 +398,20 @@ function toggleFollowCurrentPosition() {
         document.getElementById("followCurrentPositionbutton").value = "Eigener Position folgen";
     }
     document.getElementById('followCurrentPositionContainer').style.width = document.body.offsetWidth + "px";
+}
+function getWeatherInfofromPosition(position){
+    var url="http://api.openweathermap.org/data/2.5/forecast/daily?lat="+position.split(",")[0]+"&lon="+position.split(",")[1]+"&cnt=3&mode=json";
+    $.ajax({
+        url: url,
+        type: 'POST',
+        contentType: "application/json",
+        dataType: 'jsonp',
+        success: function (json){
+            //alert("sucess: "+json.city.name);
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+              $("#floatingResultContainer").append("XMLHttpRequest: "+XMLHttpRequest +"</br>"+
+                "</br> textStatus: "+ textStatus+"</br> errorThrown: "+errorThrown);  
+        }
+    });
 }
