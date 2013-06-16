@@ -1,5 +1,4 @@
 $(document).ready(function() {
-  initialize(false);
    $( "#accordion" ).accordion({
    	heightStyle: "fill",
      collapsible: true,
@@ -90,7 +89,6 @@ var destinationMarkerImage = new google.maps.MarkerImage(
 		new google.maps.Point(0, 0), // origin point
 		new google.maps.Point(7, 9) // offset point
 );
-
 function MarkerWithInfobox(marker, infobox, counter) {
 	this.reference = marker;
 	this.infobox = infobox;
