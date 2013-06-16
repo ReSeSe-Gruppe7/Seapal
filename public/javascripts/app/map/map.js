@@ -6,7 +6,6 @@ $(document).ready(function() {
     });
 
 });
-
 $(function() {
     $( "#accordion-resizer" ).resizable({
       minHeight: 140,
@@ -777,8 +776,10 @@ function getInfofromJSON(json){
 	$.each(json.list,function(i, el){
 		$("#img"+i).attr("src","/assets/images/WeatherIcons/"+$(this)[0].weather[0].icon+".png");
 		$("#desc"+i).html($(this)[0].weather[0].description);
-		$("#tempday"+i).html($(this)[0].temp.day);
-		$("#tempnight"+i).html($(this)[0].temp.night);
+		var temday = parseInt($(this)[0].temp.day)-272.15;
+		$("#tempday"+i).html(temday.toPrecision(2));
+		var temday1 = parseInt($(this)[0].temp.night)-272.15;
+		$("#tempnight"+i).html(temday1.toPrecision(2));
 		$("#humidity"+i).html($(this)[0].humidity);
 		$("#pressure"+i).html($(this)[0].pressure);
 		$("#speed"+i).html($(this)[0].speed);
