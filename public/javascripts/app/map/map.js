@@ -1,3 +1,21 @@
+$(document).ready(function() {
+  initialize(false);
+   $( "#accordion" ).accordion({
+   	heightStyle: "fill",
+     collapsible: true,
+    });
+
+});
+$(function() {
+    $( "#accordion-resizer" ).resizable({
+      minHeight: 140,
+      minWidth: 200,
+      resize: function() {
+        $( "#accordion" ).accordion( "refresh" );
+      }
+    });
+});
+
 var map = null;
 
 var overlay = new google.maps.OverlayView();
@@ -153,27 +171,29 @@ function initialize(weathermap) {
 		map : map,
 		icon : currentPositionMarkerImage
 	}
+	//get JSON forcast Object
+	getWeatherInfofromPosition(map.getCenter().toUrlValue());
 
+		google.maps.event.addListener(map, 'center_changed', function() {		
+		getWeatherInfofromPosition(map.getCenter().toUrlValue());
+});
 	// initialize marker for current position
-
 	currentPositionMarker = new google.maps.Marker(currentMarkerOptions);
 
 	// set map types
 	google.maps.event.addListener(currentPositionMarker, 'position_changed',
 			function() {
 				// Send Position to OpenSeemapApi
-
 				if (followCurrentPosition) {
 					map.setCenter(currentPositionMarker.getPosition());
 
 				}
-
 				if (currentMode == MODE.NAVIGATION) {
 					updateNavigation(currentPositionMarker.position,
 							destinationMarker.position);
 				}
 			});
-	getWeatherInfofromPosition(map.getCenter().toUrlValue());
+
 	map.overlayMapTypes.push(new google.maps.ImageMapType({
 		getTileUrl : function(coord, zoom) {
 			return "http://tiles.openseamap.org/seamark/" + zoom + "/"
@@ -288,6 +308,126 @@ function getWeather(weather, callback) {
 		success : callback
 	});
 }
+
+
+// show Diagramm --------------//
+function showHourlyForecastChart(chartName, forecast) {
+
+	var curdate = new Date((new Date()).getTime() - 180 * 60 * 1000);
+
+	var cnt = 0;
+
+	var time = new Array();
+	var tmp = new Array();
+	var wind = new Array();
+	var prcp = new Array();
+
+	for ( var i = 0; i < forecast.length; i++) {
+
+		var dt = new Date(forecast[i].dt * 1000);
+
+		if (curdate > dt)
+			continue;
+		if (cnt > 10)
+			break;
+		cnt++;
+
+		/*
+		 /tmp.push( Math.round(10*(forecast[i].temp.morn-273.15))/10  );
+		var mornTime=new Date( forecast[i].dt * 1000 + time_zone);
+		mornTime.setHours(9+time_zone);
+		time.push(  mornTime);
+		 */
+		tmp.push(Math.round(10 * (forecast[i].temp.day - 273.15)) / 10);
+		time.push(new Date(forecast[i].dt * 1000 + time_zone));
+		wind.push(forecast[i].speed);
+
+		var p = 0;
+		if (forecast[i]['rain'] && forecast[i]['rain'])
+			p += forecast[i]['rain'];
+		if (forecast[i]['snow'] && forecast[i]['snow'])
+			p += forecast[i]['snow'];
+		prcp.push(Math.round(p * 10) / 10);
+	}
+
+	$('#chart_small').highcharts(
+			{
+				chart : {
+					zoomType : 'xy'
+				},
+				 title: {
+				        text: 'Temperature and Rain variation by days'
+				    },
+
+				xAxis : {
+					categories : time,
+					type : 'datetime',
+					labels : {
+						formatter : function() {
+							return Highcharts.dateFormat('%H:%M', this.value);
+						}
+					}
+				},
+				yAxis : [ {
+					labels : {
+						format : '{value}°C',
+						style : {
+							color : 'blue'
+						}
+					},
+					opposite : true,
+					title : NaN
+				}, {
+					labels : {
+						format : '{value}mm',
+						style : {
+							color : '#4572A7'
+						}
+					},
+					opposite : true,
+					title : NaN
+				} ],
+				tooltip : {
+					useHTML : true,
+					shared : true,
+					formatter : function() {
+						var s = '<small>'
+								+ Highcharts.dateFormat('%d %b. %H:%M', this.x)
+								+ '</small><table>';
+						$.each(this.points, function(i, point) {
+							s += '<tr><td style="color:' + point.series.color
+									+ '">' + point.series.name + ': </td>'
+									+ '<td style="text-align: right"><b>'
+									+ point.y + '</b></td></tr>';
+						});
+						return s + '</table>';
+					}
+				},
+				legend : {
+					layout : 'vertical',
+					align : 'left',
+					x : 410,
+					verticalAlign : 'top',
+					y : 0,
+					floating : true,
+					backgroundColor : '#FFFFFF'
+				},
+				series : [ {
+					name : 'Precipitation',
+					type : 'column',
+					color : '#A0A0A0',
+					yAxis : 1,
+					data : prcp
+				}, {
+					name : 'Temperature',
+					type : 'spline',
+					color : 'blue',
+					data : tmp
+				} ]
+			});
+
+};
+
 
 // temporary marker context menu ----------------------------------------- //
 $(function() {
@@ -565,14 +705,14 @@ function toggleFollowCurrentPosition() {
 function getWeatherInfofromPosition(position) {
 	var url = "http://api.openweathermap.org/data/2.5/forecast/daily?lat="
 			+ position.split(",")[0] + "&lon=" + position.split(",")[1]
-			+ "&cnt=3&mode=json";
+			+ "&cnt=4&mode=json";
 	$.ajax({
 		url : url,
 		type : 'POST',
 		contentType : "application/json",
 		dataType : 'jsonp',
 		success : function(json) {
-			// alert("sucess: "+json.city.name);
+			getInfofromJSON(json);
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
 			$("#floatingResultContainer").append(
@@ -582,6 +722,7 @@ function getWeatherInfofromPosition(position) {
 		}
 	});
 }
+
 
 //---//
 function showHourlyForecastChart(chartName, forecast) {
@@ -700,3 +841,22 @@ function showHourlyForecastChart(chartName, forecast) {
 			});
 
 };
+
+
+function getInfofromJSON(json){
+	$("#cityName").html(json.city.name);
+	$("#cityCountry").html(json.city.country);
+	$("#citylon").html(json.city.coord.lon);
+	$("#citylat").html(json.city.coord.lat);
+	$.each(json.list,function(i, el){
+		$("#img"+i).attr("src","/assets/images/WeatherIcons/"+$(this)[0].weather[0].icon+".png");
+		$("#desc"+i).html($(this)[0].weather[0].description);
+		var temday = parseInt($(this)[0].temp.day)-272.15;
+		$("#tempday"+i).html(temday.toPrecision(2));
+		var temday1 = parseInt($(this)[0].temp.night)-272.15;
+		$("#tempnight"+i).html(temday1.toPrecision(2));
+		$("#humidity"+i).html($(this)[0].humidity);
+		$("#pressure"+i).html($(this)[0].pressure);
+		$("#speed"+i).html($(this)[0].speed);
+	});
+}

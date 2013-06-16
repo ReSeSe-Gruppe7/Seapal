@@ -63,15 +63,56 @@
 		            <input type="button" class="btn" value="Eigener Position folgen" id="followCurrentPositionbutton" onclick="javascript: toggleFollowCurrentPosition()" />
 		        </div>
 		    </div>
-		    <div class="well well-large"></div>
-		    <div class="span1" id="floatingResultContainer">
+		    <div class="span3" style="height: 300px;" id="floatingResultContainer">
 		    	<div id="accordion">
-  					<h3>City Information</h3>
-  						<div></div>
-  					<h3>Today</h3>
-  						<div></div>
-  					<h3>forecast</h3>
-  						<div></div>
+  					<h5>City Information</h5>
+  						<div id="cityInfo">
+    					<table class="table table-striped">
+    						<tr><td>name: </td><td id="cityName"></td></tr>
+    						<tr><td>country: </td><td  id="cityCountry"></td></tr>
+    						<tr><td>longitude: </td><td  id="citylon"></td></tr>
+    						<tr><td>latitude: </td><td  id="citylat"></td></tr>
+						</table>
+    						
+  						</div>
+  					<h5>Today</h5>
+  						<div id="forecasttoday">
+  						<table class="table table-striped">
+    						<tr><td><img id="img0" src=""/></td><td id="desc0"></td></tr>
+    						<tr><td>temp(day): </td><td  id="tempday0"></td></tr>
+    						<tr><td>temp(night):  </td><td  id="tempnight0"></td></tr>
+    						<tr><td>humidity: </td><td  id="humidity0"></td></tr>
+    						<tr><td>pressure: </td><td  id="pressure0"></td></tr>
+    						<tr><td>speed: </td><td  id="speed0"></td></tr>
+						</table>
+  						</div>
+  					<h5>forecast for the next 3 Days</h5>
+  						<div id="forecastanother">
+  						<table class="table table-striped">
+    						<tr><td><img id="img1" src=""/></td><td id="desc1"></td></tr>
+    						<tr><td>temp(day): </td><td  id="tempday1"></td></tr>
+    						<tr><td>temp(night): </td><td  id="tempnight1"></td></tr>
+    						<tr><td>humidity: </td><td  id="humidity1"></td></tr>
+    						<tr><td>pressure: </td><td  id="pressure1"></td></tr>
+    						<tr><td>speed: </td><td  id="speed1"></td></tr>
+						</table>
+						<table class="table table-striped">
+    						<tr><td><img id="img2" src=""/></td><td id="desc2"></td></tr>
+    						<tr><td>temp(day): </td><td  id="tempday2"></td></tr>
+    						<tr><td>temp(night): </td><td  id="tempnight2"></td></tr>
+    						<tr><td>humidity: </td><td  id="humidity2"></td></tr>
+    						<tr><td>pressure: </td><td  id="pressure2"></td></tr>
+    						<tr><td>speed: </td><td  id="speed2"></td></tr>
+						</table>  						
+						<table class="table table-striped">
+    						<tr><td><img id="img3" src=""/></td><td id="desc3"></td></tr>
+    						<tr><td>temp(day): </td><td  id="tempday3"></td></tr>
+    						<tr><td>temp(night): </td><td  id="tempnight3"></td></tr>
+    						<tr><td>humidity: </td><td  id="humidity3"></td></tr>
+    						<tr><td>pressure: </td><td  id="pressure3"></td></tr>
+    						<tr><td>speed: </td><td  id="speed3"></td></tr>
+						</table>
+  						</div>
 		    	</div>
 		    	</div>
 		    <!-- Map -->
