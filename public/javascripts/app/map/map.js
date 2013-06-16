@@ -183,7 +183,7 @@ function initialize(weathermap) {
 		name : "OpenSeaMap",
 		maxZoom : 18
 	}));
-	
+
 	//add rain map   ------------------//
 	if (weathermap) {
 		map.overlayMapTypes.push(new google.maps.ImageMapType({
@@ -193,11 +193,10 @@ function initialize(weathermap) {
 			},
 			tileSize : new google.maps.Size(256, 256),
 			name : "OpenWeatherMap",
-			maxZoom : 11,
+			maxZoom : 12,
 			opacity : .5
 		}));
 
-		
 	}
 
 	overlay.draw = function() {
@@ -222,35 +221,35 @@ function initialize(weathermap) {
 			noToggleOfFollowCurrentPositionButton = false;
 		}
 	});
-	google.maps.event.addListener(map, 'dragend', function() {		
-			console.log("Position geändert. Wird ein neues Diagramm gezeichnet.");				
-			 drawDia(map);
+	google.maps.event.addListener(map, 'dragend', function() {
+		console.log("Position geändert. Wird ein neues Diagramm gezeichnet.");
+		drawDia(map);
 	});
-	google.maps.event.addListener(map, 'zoom_changed', function() {		
-		console.log("Zoom-position geändert. Wird ein neues Diagramm gezeichnet.");				
-		 drawDia(map);
-});
+	google.maps.event
+			.addListener(
+					map,
+					'zoom_changed',
+					function() {
+						console
+								.log("Zoom-position geändert. Wird ein neues Diagramm gezeichnet.");
+						drawDia(map);
+					});
 	drawDia(map);
 }
 
 function drawDia(map) {
 	var curd = new Date();
-	var d = new Date(curd.getFullYear(), curd
-			.getMonth(), curd.getDate());
+	var d = new Date(curd.getFullYear(), curd.getMonth(), curd.getDate());
 	var s = Math.round((d.getTime()) / 1000) - 3600 * 24 * 1;
 	var lat = map.getCenter().lat();
 	var lng = map.getCenter().lng();
 	// console.log(s);
-	var jsonurl = "http://openweathermap.org/data/2.5/forecast?lat="
-			+ lat
-			+ "&lon="
-			+ lng
-			+ "&cnt=10&start="
-			+ s;
+	var jsonurl = "http://openweathermap.org/data/2.5/forecast?lat=" + lat
+			+ "&lon=" + lng + "&cnt=10&start=" + s;
 
 	getWeather(jsonurl, function(JSONobject) {
 
-		// console.log(JSONobject.list[0].main);
+		console.log(JSONobject);
 		data = JSONobject.list;
 
 		// showSimpleChart('chart-simple', data);
@@ -263,9 +262,30 @@ function drawDia(map) {
 		// showWind('chart6', data);
 
 		// chartSpeed('chart3', data);
-		// showPolarSpeed('chart-wind', data);
+		showPolarSpeed('chart-wind', data);
 		// showPolar('chart-wind', data);
 		// chartDoublePress('chart-wind', data);
+	});
+	jsonurl = "http://openweathermap.org/data/2.5/forecast/daily?lat=" + lat
+			+ "&lon=" + lng + "&cnt=10&start=" + s;
+	getWeather(jsonurl, function(JSONobject) {
+		data = JSONobject.list;
+		showHourlyForecastChart('chart_small', data);
+	});
+}
+//weather functions ---------------------------------------------------------
+////
+
+var time_zone = 1000 * (new Date().getTimezoneOffset()) * (-60);
+
+//jsonp script-teil aufgebaut und den serverseite vertraut
+function getWeather(weather, callback) {
+	// var weather =
+	// "http://openweathermap.org/data/2.5/forecast?lat=47.65521295468833&lon=9.2010498046875&cnt=10";
+	$.ajax({
+		dataType : "jsonp",
+		url : weather,
+		success : callback
 	});
 }
 
@@ -527,192 +547,8 @@ function toggleFollowCurrentPosition() {
 	document.getElementById('followCurrentPositionContainer').style.width = document.body.offsetWidth
 			+ "px";
 }
-// weather functions ---------------------------------------------------------
-// //
-
-var time_zone = 1000 * (new Date().getTimezoneOffset()) * (-60);
-
-// jsonp script-teil aufgebaut und den serverseite vertraut
-function getWeather(weather, callback) {
-	// var weather =
-	// "http://openweathermap.org/data/2.5/forecast?lat=47.65521295468833&lon=9.2010498046875&cnt=10";
-	$.ajax({
-		dataType : "jsonp",
-		url : weather,
-		success : callback
-	});
-}
 
 // ---------- //
-function showBarsDouble(chartName, forecast) {
-	var tmp_min_max = new Array();
-	var tmp = new Array();
-	var tmp_max = new Array();
-	var tmp_min = new Array();
-
-	var categories = new Array();
-
-	// var categories = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug',
-	// 'Sep', 'Oct', 'Nov', 'Dec'];
-	for ( var i = 0; i < forecast.length; i++) {
-		categories.push(forecast[i]['dt'] * 1000 + time_zone);
-		tmp.push(
-		// forecast[i]['dt'] * 1000,
-		Math.round((forecast[i]['main']['temp'] - 273.15) * 100) / 100);
-
-		tmp_min_max
-				.push([
-						// forecast[i]['dt'] * 1000,
-						Math
-								.round((forecast[i]['main']['temp_min'] - 273.15) * 100) / 100,
-						Math
-								.round((forecast[i]['main']['temp_max'] - 273.15) * 100) / 100 ]);
-
-		tmp_min
-				.push([
-						// forecast[i]['dt'] * 1000,
-						Math
-								.round((forecast[i]['main']['temp_min'] - 273.15) * 100) / 100,
-						Math
-								.round((forecast[i]['main']['temp'] - 273.15) * 100) / 100 ]);
-		tmp_max
-				.push([
-						// forecast[i]['dt'] * 1000,
-						Math
-								.round((forecast[i]['main']['temp'] - 273.15) * 100) / 100,
-						Math
-								.round((forecast[i]['main']['temp_max'] - 273.15) * 100) / 100 ]);
-
-	}
-	// console.log(tmp);
-
-	window.chart = new Highcharts.Chart({
-
-		chart : {
-			renderTo : chartName,
-			type : 'columnrange',
-		// inverted: true
-		},
-
-		title : {
-			text : 'Temperature variation by hours'
-		},
-		subtitle : {
-			text : null
-		},
-
-		xAxis : {
-			type : 'datetime',
-			categories : categories,
-			tickInterval : 8,
-			labels : {
-				formatter : function() {
-					return Highcharts.dateFormat('%H:00', this.value);
-				}
-			}
-
-		},
-
-		yAxis : {
-			title : {
-				text : 'Temperature ( °C )'
-			}
-		},
-
-		tooltip : {
-			valueSuffix : '°C'
-		},
-
-		/*
-		 * plotOptions: { columnrange: { dataLabels: { enabled: true, formatter:
-		 * function () { return this.y + '°C'; }, y: 0 } } },
-		 */
-
-		legend : {
-			enabled : false
-		},
-
-		series : [ {
-			name : 'Temperatures',
-			data : tmp_min_max,
-		}, {
-			name : 'Temperatures',
-			data : tmp,
-			type : 'spline'
-
-		} ]
-
-	});
-
-}
-
-function showIconsChart(chartName, forecast) {
-
-	var tmp = new Array();
-	var tm = new Array();
-
-	var j = 0;
-
-	for ( var i = 0; i < forecast.length; i++) {
-		var t = Math.round((forecast[i]['main']['temp'] - 273.15) * 100) / 100;
-
-		if (j == 8) {
-
-			if (forecast[i]['weather']) {
-
-				var url = 'http://openweathermap.org/img/w/'
-						+ forecast[i]['weather'][0]['icon'] + '.png';
-				t = {
-					y : t,
-					marker : {
-						symbol : 'url(' + url + ')',
-					}
-				};
-
-			}
-			j = 0;
-		}
-
-		tmp.push(t);
-
-		tm.push(new Date(forecast[i]['dt'] * 1000 + time_zone));
-		j++;
-	}
-
-	chart = new Highcharts.Chart({
-		chart : {
-			renderTo : chartName,
-			type : 'spline'
-		},
-
-		title : {
-			text : 'Temperature during two days'
-		},
-
-		yAxis : {
-			title : {
-				text : 'Temperature'
-			}
-		},
-
-		xAxis : {
-			type : 'datetime',
-			categories : tm,
-			tickInterval : 8,
-			labels : {
-				formatter : function() {
-					return Highcharts.dateFormat('%H:00', this.value);
-				}
-			}
-		},
-
-		series : [ {
-			name : 'Temperature',
-			type : 'spline',
-			data : tmp
-		} ]
-	});
-}
 
 function toggleFollowCurrentPosition() {
 	followCurrentPosition = !followCurrentPosition;
@@ -746,3 +582,121 @@ function getWeatherInfofromPosition(position) {
 		}
 	});
 }
+
+//---//
+function showHourlyForecastChart(chartName, forecast) {
+
+	var curdate = new Date((new Date()).getTime() - 180 * 60 * 1000);
+
+	var cnt = 0;
+
+	var time = new Array();
+	var tmp = new Array();
+	var wind = new Array();
+	var prcp = new Array();
+
+	for ( var i = 0; i < forecast.length; i++) {
+
+		var dt = new Date(forecast[i].dt * 1000);
+
+		if (curdate > dt)
+			continue;
+		if (cnt > 10)
+			break;
+		cnt++;
+
+		/*
+		 /tmp.push( Math.round(10*(forecast[i].temp.morn-273.15))/10  );
+		var mornTime=new Date( forecast[i].dt * 1000 + time_zone);
+		mornTime.setHours(9+time_zone);
+		time.push(  mornTime);
+		 */
+		tmp.push(Math.round(10 * (forecast[i].temp.day - 273.15)) / 10);
+		time.push(new Date(forecast[i].dt * 1000 + time_zone));
+		wind.push(forecast[i].speed);
+
+		var p = 0;
+		if (forecast[i]['rain'] && forecast[i]['rain'])
+			p += forecast[i]['rain'];
+		if (forecast[i]['snow'] && forecast[i]['snow'])
+			p += forecast[i]['snow'];
+		prcp.push(Math.round(p * 10) / 10);
+	}
+
+	$('#chart_small').highcharts(
+			{
+				chart : {
+					zoomType : 'xy'
+				},
+				 title: {
+				        text: 'Temperature and Rain variation by days'
+				    },
+
+				xAxis : {
+					categories : time,
+					type : 'datetime',
+					labels : {
+						formatter : function() {
+							return Highcharts.dateFormat('%H:%M', this.value);
+						}
+					}
+				},
+				yAxis : [ {
+					labels : {
+						format : '{value}°C',
+						style : {
+							color : 'blue'
+						}
+					},
+					opposite : true,
+					title : NaN
+				}, {
+					labels : {
+						format : '{value}mm',
+						style : {
+							color : '#4572A7'
+						}
+					},
+					opposite : true,
+					title : NaN
+				} ],
+				tooltip : {
+					useHTML : true,
+					shared : true,
+					formatter : function() {
+						var s = '<small>'
+								+ Highcharts.dateFormat('%d %b. %H:%M', this.x)
+								+ '</small><table>';
+						$.each(this.points, function(i, point) {
+							s += '<tr><td style="color:' + point.series.color
+									+ '">' + point.series.name + ': </td>'
+									+ '<td style="text-align: right"><b>'
+									+ point.y + '</b></td></tr>';
+						});
+						return s + '</table>';
+					}
+				},
+				legend : {
+					layout : 'vertical',
+					align : 'left',
+					x : 410,
+					verticalAlign : 'top',
+					y : 0,
+					floating : true,
+					backgroundColor : '#FFFFFF'
+				},
+				series : [ {
+					name : 'Precipitation',
+					type : 'column',
+					color : '#A0A0A0',
+					yAxis : 1,
+					data : prcp
+				}, {
+					name : 'Temperature',
+					type : 'spline',
+					color : 'blue',
+					data : tmp
+				} ]
+			});
+
+};
