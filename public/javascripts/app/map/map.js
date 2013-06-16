@@ -1,3 +1,22 @@
+$(document).ready(function() {
+  initialize(false);
+   $( "#accordion" ).accordion({
+   	heightStyle: "fill",
+     collapsible: true,
+    });
+
+});
+
+$(function() {
+    $( "#accordion-resizer" ).resizable({
+      minHeight: 140,
+      minWidth: 200,
+      resize: function() {
+        $( "#accordion" ).accordion( "refresh" );
+      }
+    });
+});
+
 var map = null;
 
 var overlay = new google.maps.OverlayView();
@@ -153,27 +172,29 @@ function initialize(weathermap) {
 		map : map,
 		icon : currentPositionMarkerImage
 	}
+	//get JSON forcast Object
+	getWeatherInfofromPosition(map.getCenter().toUrlValue());
 
+		google.maps.event.addListener(map, 'center_changed', function() {		
+		getWeatherInfofromPosition(map.getCenter().toUrlValue());
+});
 	// initialize marker for current position
-
 	currentPositionMarker = new google.maps.Marker(currentMarkerOptions);
 
 	// set map types
 	google.maps.event.addListener(currentPositionMarker, 'position_changed',
 			function() {
 				// Send Position to OpenSeemapApi
-
 				if (followCurrentPosition) {
 					map.setCenter(currentPositionMarker.getPosition());
 
 				}
-
 				if (currentMode == MODE.NAVIGATION) {
 					updateNavigation(currentPositionMarker.position,
 							destinationMarker.position);
 				}
 			});
-	getWeatherInfofromPosition(map.getCenter().toUrlValue());
+
 	map.overlayMapTypes.push(new google.maps.ImageMapType({
 		getTileUrl : function(coord, zoom) {
 			return "http://tiles.openseamap.org/seamark/" + zoom + "/"
@@ -729,14 +750,14 @@ function toggleFollowCurrentPosition() {
 function getWeatherInfofromPosition(position) {
 	var url = "http://api.openweathermap.org/data/2.5/forecast/daily?lat="
 			+ position.split(",")[0] + "&lon=" + position.split(",")[1]
-			+ "&cnt=3&mode=json";
+			+ "&cnt=4&mode=json";
 	$.ajax({
 		url : url,
 		type : 'POST',
 		contentType : "application/json",
 		dataType : 'jsonp',
 		success : function(json) {
-			// alert("sucess: "+json.city.name);
+			getInfofromJSON(json);
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
 			$("#floatingResultContainer").append(
@@ -744,5 +765,22 @@ function getWeatherInfofromPosition(position) {
 							+ "</br> textStatus: " + textStatus
 							+ "</br> errorThrown: " + errorThrown);
 		}
+	});
+}
+
+
+function getInfofromJSON(json){
+	$("#cityName").html(json.city.name);
+	$("#cityCountry").html(json.city.country);
+	$("#citylon").html(json.city.coord.lon);
+	$("#citylat").html(json.city.coord.lat);
+	$.each(json.list,function(i, el){
+		$("#img"+i).attr("src","/assets/images/WeatherIcons/"+$(this)[0].weather[0].icon+".png");
+		$("#desc"+i).html($(this)[0].weather[0].description);
+		$("#tempday"+i).html($(this)[0].temp.day);
+		$("#tempnight"+i).html($(this)[0].temp.night);
+		$("#humidity"+i).html($(this)[0].humidity);
+		$("#pressure"+i).html($(this)[0].pressure);
+		$("#speed"+i).html($(this)[0].speed);
 	});
 }
