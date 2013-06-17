@@ -90,7 +90,6 @@ var destinationMarkerImage = new google.maps.MarkerImage(
 		new google.maps.Point(0, 0), // origin point
 		new google.maps.Point(7, 9) // offset point
 );
-
 function MarkerWithInfobox(marker, infobox, counter) {
 	this.reference = marker;
 	this.infobox = infobox;
@@ -171,12 +170,14 @@ function initialize() {
 		map : map,
 		icon : currentPositionMarkerImage
 	}
+
 	// get JSON forcast Object
 	getWeatherInfofromPosition(map.getCenter().toUrlValue());
 
 	google.maps.event.addListener(map, 'center_changed', function() {
 		getWeatherInfofromPosition(map.getCenter().toUrlValue());
 	});
+
 	// initialize marker for current position
 	currentPositionMarker = new google.maps.Marker(currentMarkerOptions);
 
@@ -204,8 +205,10 @@ function initialize() {
 		maxZoom : 18
 	}));
 
+
 	// add rain map ------------------//
 	
+
 		map.overlayMapTypes.push(new google.maps.ImageMapType({
 			getTileUrl : function(coord, zoom) {
 				return "http://tile.openweathermap.org/map/precipitation/"
@@ -217,7 +220,6 @@ function initialize() {
 			opacity : .5
 		}));
 
-	
 
 	overlay.draw = function() {
 	};
@@ -245,8 +247,10 @@ function initialize() {
 		console.log("Position geändert. Wird ein neues Diagramm gezeichnet.");
 		drawDia(map);
 	});
+
 	google.maps.event.addListener(map,'zoom_changed',function() {
 						console.log("Zoom-position geändert. Wird ein neues Diagramm gezeichnet.");
+
 						drawDia(map);
 					});
 	drawDia(map);
@@ -287,6 +291,7 @@ function drawDia(map) {
 		data = JSONobject.list;
 		showHourlyForecastChart('chart_small', data);
 	});
+
 }
 // weather functions ---------------------------------------------------------
 // //
@@ -303,6 +308,7 @@ function getWeather(weather, callback) {
 		success : callback
 	});
 }
+
 
 // show Diagramm --------------//
 function showHourlyForecastChart(chartName, forecast) {
@@ -327,9 +333,10 @@ function showHourlyForecastChart(chartName, forecast) {
 		cnt++;
 
 		/*
-		 * /tmp.push( Math.round(10*(forecast[i].temp.morn-273.15))/10 ); var
-		 * mornTime=new Date( forecast[i].dt * 1000 + time_zone);
-		 * mornTime.setHours(9+time_zone); time.push( mornTime);
+		 /tmp.push( Math.round(10*(forecast[i].temp.morn-273.15))/10  );
+		var mornTime=new Date( forecast[i].dt * 1000 + time_zone);
+		mornTime.setHours(9+time_zone);
+		time.push(  mornTime);
 		 */
 		tmp.push(Math.round(10 * (forecast[i].temp.day - 273.15)) / 10);
 		time.push(new Date(forecast[i].dt * 1000 + time_zone));
@@ -348,9 +355,9 @@ function showHourlyForecastChart(chartName, forecast) {
 				chart : {
 					zoomType : 'xy'
 				},
-				title : {
-					text : 'Temperature and Rain variation by days'
-				},
+				 title: {
+				        text: 'Temperature and Rain variation by days'
+				    },
 
 				xAxis : {
 					categories : time,
@@ -420,6 +427,7 @@ function showHourlyForecastChart(chartName, forecast) {
 			});
 
 };
+
 
 // temporary marker context menu ----------------------------------------- //
 $(function() {
@@ -714,6 +722,7 @@ function getWeatherInfofromPosition(position) {
 		}
 	});
 }
+
 
 function getInfofromJSON(json) {
 	$("#cityName").html(json.city.name);
