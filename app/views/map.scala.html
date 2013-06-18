@@ -61,9 +61,12 @@
 		    <div id="followCurrentPositionContainer">
 		        <div id="followCurrentPosition_button" class="well">
 		            <input type="button" class="btn" value="Eigener Position folgen" id="followCurrentPositionbutton" onclick="javascript: toggleFollowCurrentPosition()" />
+		            <input type="button" class="btn" id="show" style="position:absolut; top: 50px;" value="show Dia"/>
+   					<input type="button" class="btn" id="hide" style="position:absolut; top: 50px;" value="close Dia" />
 		        </div>
 		    </div>
-		    <div class="span3" style="height: 300px;" id="floatingResultContainer">
+		   
+		    <div class="span3" style="height: 300px;" id="floatingResultContainer" >
 		    	<div id="accordion">
   					<h5>City Information</h5>
   						<div id="cityInfo">
@@ -112,7 +115,8 @@
     						<tr><td>pressure: </td><td  id="pressure3"></td></tr>
     						<tr><td>speed: </td><td  id="speed3"></td></tr>
 						</table>
-  						</div>
+						</div>
+						
 		    	</div>
 		    	</div>
 		    <!-- Map -->
@@ -129,12 +133,14 @@
 		        <div id="chat-area" style="height:200px; width:200px; background-color: white; overflow: auto;"></div>
 			</div>
 		</div><!-- Container -->
-		<div   style="position: absolute; top: 210px; right: 50px;">
-		
-			<div id="chart-wind" style="width: 400px; height: 300px; margin: 0 auto" ></div>
-			<div id="chart4" style="width: 400px; height: 200px; margin: 0 auto;" ></div>
-			<div id="chart_small" style="width: 400px; height: 200px; " ></div>
-			
+		    
+   			
+		<div id="target"  style=" top: 250px; position: absolute; right: 20px;">			
+			<div id="chart-wind" style="width: 400px; height: 300px; margin: 0 auto; " ></div>
+			<div id="chart4" style="width: 400px; height: 200px; " ></div>
+			<div id="chart_small" style="width: 400px; height: 200px;  " ></div>			
 		</div>
+   
+   
 	</body>
 </html>

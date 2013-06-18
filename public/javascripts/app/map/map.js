@@ -1,9 +1,32 @@
+
 $(document).ready(function() {
 	//initialize(false);
 	$("#accordion").accordion({
 		heightStyle : "fill",
 		collapsible : true,
 	});
+	document.getElementById("target").style.display = "none";
+	document.getElementById("hide").style.display = "none";
+	
+	$("#hide").click(function(){
+	       $("#target").hide( "slide", 
+	                   { direction: "right"  }, 1000 );
+	       $("#floatingResultContainer").show( "slide", 
+	               { direction: "right"  }, 1000 );
+	       document.getElementById("hide").style.display = "none";
+	       document.getElementById("show").style.display = "inline";
+	      
+	    });
+
+	    $("#show").click(function(){
+	       $("#target").show( "slide", 
+	                    {direction: "right" }, 1000 );
+	       $("#floatingResultContainer").hide( "slide", 
+	               { direction: "right"  }, 1000 );
+	       document.getElementById("show").style.display = "none";
+	       document.getElementById("hide").style.display = "inline";
+	       
+	    });
 
 });
 $(function() {
@@ -209,16 +232,30 @@ function initialize() {
 	// add rain map ------------------//
 	
 
-		map.overlayMapTypes.push(new google.maps.ImageMapType({
-			getTileUrl : function(coord, zoom) {
-				return "http://tile.openweathermap.org/map/precipitation/"
-						+ zoom + "/" + coord.x + "/" + coord.y + ".png";
-			},
-			tileSize : new google.maps.Size(256, 256),
-			name : "OpenWeatherMap",
-			maxZoom : 12,
-			opacity : .5
-		}));
+	var precipitation = new google.maps.ImageMapType({
+	  getTileUrl : function(coord, zoom) {
+	    return "http://tile.openweathermap.org/map/precipitation/"
+	    + zoom + "/" + coord.x + "/" + coord.y + ".png";
+	  },
+	  tileSize : new google.maps.Size(256, 256),
+	  name : "OpenWeatherMap",
+	  maxZoom : 12,
+	  opacity : .1
+	});
+	map.overlayMapTypes.push(precipitation);
+	var precipitationIndex = map.overlayMapTypes.indexOf(precipitation);
+	function setPrecipitationVisibility() {
+		  var zoomLevel = map.getZoom(); 
+		  if(zoomLevel>10){
+			  // Hide rain layer.
+			  map.overlayMapTypes.removeAt(precipitationIndex);
+		  } else {
+			  // Show rain layer.
+			  map.overlayMapTypes.insertAt(precipitationIndex, precipitation);
+		  }
+	}
+	google.maps.event.addListener(map, 'zoom_changed', setPrecipitationVisibility);
+	setPrecipitationVisibility();
 
 
 	overlay.draw = function() {
@@ -714,12 +751,12 @@ function getWeatherInfofromPosition(position) {
 		success : function(json) {
 			getInfofromJSON(json);
 		},
-		error : function(XMLHttpRequest, textStatus, errorThrown) {
+		/*error : function(XMLHttpRequest, textStatus, errorThrown) {
 			$("#floatingResultContainer").append(
 					"XMLHttpRequest: " + XMLHttpRequest + "</br>"
 							+ "</br> textStatus: " + textStatus
 							+ "</br> errorThrown: " + errorThrown);
-		}
+		}*/
 	});
 }
 
