@@ -4,39 +4,84 @@
 
 <html>
     <head>
-    
-    	<!-- Header -->
         @header
-        
     </head>
     <body>
-    
-    	<!-- Navigation -->
-    	@navigation
-    	
-	    <!-- Container -->
 		<div class="container">
+    	@navigation
+			<div id="myCarousel" class="carousel slide">
+  						<ol class="carousel-indicators">
+    						<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+  						</ol>
+  						<!-- Carousel items -->
+  						<div class="carousel-inner">
+    						<div class="active item"><img src="@routes.Assets.at("images/icons/carou1.jpg")" alt="" style="width:1200px;height:500px" class="img-rounded">
+    							<div class="container">
+            						<div class="carousel-caption">
+              							<h1 style="color:white;">Seapal</h1>
+              							<p class="lead"> The Compass on your Pocket !</p>
+              							<div class="container">
+              								<a class="btn btn-large btn-primary" href="http://itunes.apple.com/us/app/seapal/id561903907?mt=8&amp;uo=4" ><img src="@routes.Assets.at("images/icons/Iphone.png")" alt="Icon-Small-50" width="20" height="20">Download IPhone Version</a>
+
+            						<a class="btn btn-large btn-primary" href="http://itunes.apple.com/us/app/seapal/id561903907?mt=8&amp;uo=4"><img src="@routes.Assets.at("images/icons/Ipad.png")" alt="Icon-Small-50" width="20" height="20">Download IPad Version</a>
+              							</div>
+              						
+            						</div>
+          						</div>
+    						</div>
+    						<div class="item"><img src="@routes.Assets.at("images/icons/carou2.jpg")" alt="" style="width:1200px;height:500px" class="img-rounded">
+    						<div class="container">
+            						<div class="carousel-caption">
+              							<h1 style="color:white;">Seapal</h1>
+              							<p class="lead"> Compass and more !</p>
+              							<div class="container">
+              								<a class="btn btn-large btn-primary" href="screenshots.html" >  Screenshots  </a>
+              								<a class="btn btn-large btn-primary" href="userguide.html" >User guide</a>
+            						
+              							</div>
+              						
+            						</div>
+          						</div>
+    						</div>
+    						<div class="item"><img src="@routes.Assets.at("images/icons/carou3.jpg")" alt="" style="width:1200px;height:500px" class="img-rounded">
+    							    							<div class="container">
+            						<div class="carousel-caption">
+              							<h1 style="color:white;">Seapal</h1>
+              							<p class="lead"> The Compass on your Pocket !</p>
+              							<div class="container">
+              								<a class="btn btn-large btn-primary" href="http://itunes.apple.com/us/app/seapal/id561903907?mt=8&amp;uo=4" >Download IPhone Version</a>
+
+            						<a class="btn btn-large btn-primary" href="http://itunes.apple.com/us/app/seapal/id561903907?mt=8&amp;uo=4">Download IPad Version</a>
+              							</div>
+              						
+            						</div>
+          						</div>
+    						</div>
+  						</div>
+  						<!-- Carousel nav -->
+  						<a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+  						<a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
+					</div>
 	    	<div class="container-fluid">
 		    	<div class="row-fluid">
-		    	
 		    		<!-- Sidebar -->
 			    	<div class="span3 ">
 				    	<div class="sidebar-nav">
-					    	<ul class="nav nav-list bs-docs-sidenav affix" id="sidebar">
-		                        <li class="sidebar"><a href="#" class="welcome">Welcome</a></li>
+					    	<ul class="nav nav-list bs-docs-sidenav" id="sidebar">
+					    		<li class="sidebar"><a href="#" class="Seapal">What´s Seapal</a></li>
 		                        <li class="sidebar"><a href="#" class="overview">Overview</a></li>
 		                        <li class="sidebar"><a href="#" class="extension">Extension</a></li>
-		                        <li class="sidebar"><a href="#" class="warning">Warning</a></li>
 					        </ul>
 					    </div>
 					</div><!-- Sidebar -->
 	    
 					<div class="span9">  
-						<div class="post" id="welcome">
-							<h2>Welcome to SeaPal</h2>
-	                    	<div class="entry">
-	                        	<p><img src="@routes.Assets.at("images/screenshots/SeaPal-Horiz2.jpg")" alt="" class="img-rounded" height="200" width="620"></p>
-	                        	<p>
+						<div id="Seapal" class="post">
+   							<div>
+      							<div class="bs-docs-example" style="text-align: justify;">
+								<h2>What´s SeaPal</h2>
+								<p><img src="@routes.Assets.at("images/screenshots/Seapal2.jpg")" alt="" class="img-rounded" height="200" width="820">
+          						<p>
 		                            <b>SeaPal</b> is an App for sailors and other water sport fanatics that support the skipper in his tasks for navigation, route planing and logbook keeping. The central view shows a map with the current position and forward line. Waypoint and routes can easily be created, distances and courses can quickly be determined and documented in the logbook. The touch interface allows for fast and intuitive interaction.
 		                        </p>
 		                        <p>
@@ -54,14 +99,14 @@
 		                        <p>
 		                            The application runs on the iPad and with reduced functionality on the iPhone. An iPad with 3G or 4G and GPS is recommended. For longer use an external power source (like a USP port of a radio) is required.
 		                        </p>
-		                   </div>
+       						</div>
+    						</div>
 						</div>
-						<br><br>
-						<div class="post" id="overview">
-	                    	<h2 class="title">Function Overview</h2>
-	                    	<div class="entry">
-		                        <p><img src="@routes.Assets.at("images/screenshots/SeaPal-Horiz3.jpg")" class="img-rounded" alt="" height="200" width="620"></p>
-		                        <p>
+						<div id="overview" class="post">
+      							<div class="bs-docs-example" style="text-align: justify;">
+								<h2>Function Overview</h2>
+								<p><img src="@routes.Assets.at("images/screenshots/SeaPal-Horiz3.jpg")" class="img-rounded" alt="" height="200" width="820"></p>
+								<p>
 		                            <b>SeaPal</b> offers the following functionality
 		                        </p>
 		                        <ul>
@@ -84,13 +129,16 @@
 		                            <li> &quotPerson over Board&quot functionality </li>
 		                        </ul>
 		                        <br><br>
-	                    	</div>
+       						</div>
 						</div>
-	                    <div class="post" id="extension">
-	                        <h1>Extensions</h1>
-	                        <p>
+
+						<br><br>
+						<div id="extension" class="post">
+      							<div class="bs-docs-example" style="text-align: justify;">
+								<h2>Extensions</h2>
+								<p>
 	                            With extensions <b>SeaPal</b> offers the following functionality:
-	                        </p>
+	                        	</p>
 	                        <ul>
 	                            <li> Logbook function for one or several boats </li>
 	                            <li> Automatic tracking </li>
@@ -98,15 +146,18 @@
 	                            <li> Fotos for logbook entries </li>
 	                            <li> Collection of regional Points of Interest </li>
 	                        </ul>
-	                    </div>
+		                        <br><br>
+       						</div>
+						</div>
 	                    <br><br>
-	                    <div class="post" id="warning">
-	                    	<h1>Warning</h1>
-	                    	<p>
+	                    <div class="post">
+	                    	<div class="alert">
+  								<h2>Warning</h2>
+								<p>
 	                        	<b>SeaPal</b> is a valuable addition to your navigational equipment, but no replacement. Always use official sea maps in conjunction. All positions are provided so that a transition to paper sea maps is simple. The responsibility for the proper use lies with the skipper. The manufacturer of <b>SeaPal</b> assume no liability.
 	                        </p>
-	                        <br><br>
-	                    </div>
+							</div> 
+						</div>
 	                </div><!-- Content -->
 	            </div>
 			</div>	
