@@ -1,26 +1,11 @@
-$(document).ready(function() {
-	//initialize(false);
-	$("#accordion").accordion({
-		heightStyle : "fill",
-		collapsible : true,
-	});
 
-});
-$(function() {
-	$("#accordion-resizer").resizable({
-		minHeight : 140,
-		minWidth : 200,
-		resize : function() {
-			$("#accordion").accordion("refresh");
-		}
-	});
-});
+
 
 $(function() {
 
 	function loadEntry(routenr) { 
 			        	
-	    jQuery.get("app_weatherinfo_load.html", {'tnr': routenr}, function(data) {
+	    jQuery.get("app_weatherinfo_load.html", {'inr': routenr}, function(data) {
 		
 	        $('#windstrength').val(data['windstrength']);
 	        $('#airpressure').val(data['airpressure']);
@@ -36,7 +21,7 @@ $(function() {
 	    }, "json");
 	}
 	
-	function addEntry(tnr, json) {
+	function addEntry(inr, json) {
 		
 		var entry = "";
 		
@@ -48,9 +33,9 @@ $(function() {
 	    entry += "<td>" + json.wavehight + "</td>";
 	    entry += "<td>" + json.wavedirection + "</td>";
 	    entry += "<td style='width:30px; text-align:right;'><div class='btn-group'>";
-		entry += "<a class='btn btn-small view' id='" + tnr + "'><span><i class='icon-eye-open'></i></span></a>";
-		entry += "<a class='btn btn-small remove' id='" + tnr + "'><span><i class='icon-remove'></i></span></a>";
-		entry += "<a href='app_tripinfo.php?tnr=" + tnr + "' class='btn btn-small redirect' id='" + tnr + "'><span><i class='icon-chevron-right'></i></span></a>";
+		entry += "<a class='btn btn-small view' id='" + inr + "'><span><i class='icon-eye-open'></i></span></a>";
+		entry += "<a class='btn btn-small remove' id='" + inr + "'><span><i class='icon-remove'></i></span></a>";
+		entry += "<a href='app_weatherinfo.php?inr=" + inr + "' class='btn btn-small redirect' id='" + inr + "'><span><i class='icon-chevron-right'></i></span></a>";
 		entry += "</div></td>";
 	    entry += "</tr>";
 	    
@@ -64,12 +49,12 @@ $(function() {
 	$('a.remove').live("click", function(event) {
 		var buttonID = this;
 	 	var tripnr = $(this).attr('id');
-		jQuery.get("app_weatherinfo_delete.html", { "tnr": tripnr }, function(data) { 
+		jQuery.get("app_weatherinfo_delete.html", { "inr": tripnr }, function(data) { 
 		
-			if (data['tnr'].match(/Error/)) {
+			if (data['inr'].match(/Error/)) {
 		    	
 		    	$('#dialogTitle').text('Error');
-		    	$('#dialogMessage').text(data['tnr'].replace(/Error: /, ""));
+		    	$('#dialogMessage').text(data['inr'].replace(/Error: /, ""));
 		    	
 	    	} else {
 		    	
@@ -102,14 +87,14 @@ $(function() {
 	
 	    jQuery.post("app_weatherinfo_insert.html", json, function(data) { 
 	    
-	    	if (data['tnr'].match(/Error/)) {
+	    	if (data['inr'].match(/Error/)) {
 		    	
 		    	$('#dialogTitle').text('Error');
-		    	$('#dialogMessage').text(data['tnr'].replace(/Error: /, ""));
+		    	$('#dialogMessage').text(data['inr'].replace(/Error: /, ""));
 		    	
 	    	} else {
 		    	
-		    	addEntry( data['tnr'], json );
+		    	addEntry( data['inr'], json );
 	    
 		    	$('#dialogTitle').text('Success');
 		    	$('#dialogMessage').text("Eintrag wurde erfolgreich gespeichert.");
