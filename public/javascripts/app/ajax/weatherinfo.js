@@ -1,42 +1,23 @@
-$(document).ready(function() {
-	//initialize(false);
-	$("#accordion").accordion({
-		heightStyle : "fill",
-		collapsible : true,
-	});
-
-});
-$(function() {
-	$("#accordion-resizer").resizable({
-		minHeight : 140,
-		minWidth : 200,
-		resize : function() {
-			$("#accordion").accordion("refresh");
-		}
-	});
-});
-
 $(function() {
 
-	function loadEntry(routenr) { 
+	function loadEntry(infonr) { 
 			        	
-	    jQuery.get("app_weatherinfo_load.html", {'tnr': routenr}, function(data) {
+	    jQuery.get("app_weatherinfo_load.html", {'inr': infonr}, function(data) {
 		
 	        $('#windstrength').val(data['windstrength']);
-	        $('#airpressure').val(data['airpressure']);
-	        $('#clouds').val(data['clouds']);
-	        $('#wavehight').val(data['wavehight']);
-	        $('#time').val(data['time']);
 	        $('#winddirection').val(data['winddirection']);
+	        $('#airpressure').val(data['airpressure']);
 	        $('#temperature').val(data['temperature']);
+	        $('#clouds').val(data['clouds']);
 	        $('#rain').val(data['rain']);
+	        $('#wavehight').val(data['wavehight']);
 	        $('#wavedirection').val(data['wavedirection']);
-	        $('#date').val(data['date']);
-	
+	        $('#time').val(data['time']);
+			$('#date').val(data['date']);
 	    }, "json");
 	}
 	
-	function addEntry(tnr, json) {
+	function addEntry(inr, json) {
 		
 		var entry = "";
 		
@@ -48,9 +29,9 @@ $(function() {
 	    entry += "<td>" + json.wavehight + "</td>";
 	    entry += "<td>" + json.wavedirection + "</td>";
 	    entry += "<td style='width:30px; text-align:right;'><div class='btn-group'>";
-		entry += "<a class='btn btn-small view' id='" + tnr + "'><span><i class='icon-eye-open'></i></span></a>";
-		entry += "<a class='btn btn-small remove' id='" + tnr + "'><span><i class='icon-remove'></i></span></a>";
-		entry += "<a href='app_tripinfo.php?tnr=" + tnr + "' class='btn btn-small redirect' id='" + tnr + "'><span><i class='icon-chevron-right'></i></span></a>";
+		entry += "<a class='btn btn-small view' id='" + inr + "'><span><i class='icon-eye-open'></i></span></a>";
+		entry += "<a class='btn btn-small remove' id='" + inr + "'><span><i class='icon-remove'></i></span></a>";
+		entry += "<a href='app_tripinfo.php?inr=" + inr + "' class='btn btn-small redirect' id='" + inr + "'><span><i class='icon-chevron-right'></i></span></a>";
 		entry += "</div></td>";
 	    entry += "</tr>";
 	    
@@ -64,12 +45,12 @@ $(function() {
 	$('a.remove').live("click", function(event) {
 		var buttonID = this;
 	 	var tripnr = $(this).attr('id');
-		jQuery.get("app_weatherinfo_delete.html", { "tnr": tripnr }, function(data) { 
+		jQuery.get("app_weatherinfo_delete.html", { "inr": tripnr }, function(data) { 
 		
-			if (data['tnr'].match(/Error/)) {
+			if (data['inr'].match(/Error/)) {
 		    	
 		    	$('#dialogTitle').text('Error');
-		    	$('#dialogMessage').text(data['tnr'].replace(/Error: /, ""));
+		    	$('#dialogMessage').text(data['inr'].replace(/Error: /, ""));
 		    	
 	    	} else {
 		    	
@@ -89,27 +70,27 @@ $(function() {
 	
 		var json = {
             "windstrength": $('#windstrength').val(),
+            "winddirection": $('#winddirection').val(),
             "airpressure": $('#airpressure').val(),
-            "clouds": $('#clouds').val(),
-	        "wavehight": $('#wavehight').val(),
-	        "time": $('#time').val(),
-	        "winddirection": $('#winddirection').val(),
 	        "temperature": $('#temperature').val(),
+	        "clouds": $('#clouds').val(),
 	        "rain": $('#rain').val(),
+	        "wavehight": $('#wavehight').val(),
 	        "wavedirection": $('#wavedirection').val(),
+	        "time": $('#time').val(),
 	        "date": $('#date').val()        
 	    };
 	
 	    jQuery.post("app_weatherinfo_insert.html", json, function(data) { 
 	    
-	    	if (data['tnr'].match(/Error/)) {
+	    	if (data['inr'].match(/Error/)) {
 		    	
 		    	$('#dialogTitle').text('Error');
-		    	$('#dialogMessage').text(data['tnr'].replace(/Error: /, ""));
+		    	$('#dialogMessage').text(data['inr'].replace(/Error: /, ""));
 		    	
 	    	} else {
 		    	
-		    	addEntry( data['tnr'], json );
+		    	addEntry( data['inr'], json );
 	    
 		    	$('#dialogTitle').text('Success');
 		    	$('#dialogMessage').text("Eintrag wurde erfolgreich gespeichert.");
