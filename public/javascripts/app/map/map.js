@@ -1,4 +1,6 @@
-
+if(typeof console === "undefined") {
+    console = { log: function() { } };
+}
 $(document).ready(function() {
 	//initialize(false);
 	$("#accordion").accordion({

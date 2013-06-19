@@ -1,23 +1,21 @@
 
-
-
 $(function() {
 
-	function loadEntry(routenr) { 
+	function loadEntry(infonr) { 
 			        	
-	    jQuery.get("app_weatherinfo_load.html", {'inr': routenr}, function(data) {
-		
+
+	    jQuery.get("app_weatherinfo_load.html", {'inr': infonr}, function(data) {
+
 	        $('#windstrength').val(data['windstrength']);
-	        $('#airpressure').val(data['airpressure']);
-	        $('#clouds').val(data['clouds']);
-	        $('#wavehight').val(data['wavehight']);
-	        $('#time').val(data['time']);
 	        $('#winddirection').val(data['winddirection']);
+	        $('#airpressure').val(data['airpressure']);
 	        $('#temperature').val(data['temperature']);
+	        $('#clouds').val(data['clouds']);
 	        $('#rain').val(data['rain']);
+	        $('#wavehight').val(data['wavehight']);
 	        $('#wavedirection').val(data['wavedirection']);
-	        $('#date').val(data['date']);
-	
+	        $('#time').val(data['time']);
+			$('#date').val(data['date']);
 	    }, "json");
 	}
 	
@@ -36,6 +34,7 @@ $(function() {
 		entry += "<a class='btn btn-small view' id='" + inr + "'><span><i class='icon-eye-open'></i></span></a>";
 		entry += "<a class='btn btn-small remove' id='" + inr + "'><span><i class='icon-remove'></i></span></a>";
 		entry += "<a href='app_weatherinfo.php?inr=" + inr + "' class='btn btn-small redirect' id='" + inr + "'><span><i class='icon-chevron-right'></i></span></a>";
+
 		entry += "</div></td>";
 	    entry += "</tr>";
 	    
@@ -74,14 +73,14 @@ $(function() {
 	
 		var json = {
             "windstrength": $('#windstrength').val(),
+            "winddirection": $('#winddirection').val(),
             "airpressure": $('#airpressure').val(),
-            "clouds": $('#clouds').val(),
-	        "wavehight": $('#wavehight').val(),
-	        "time": $('#time').val(),
-	        "winddirection": $('#winddirection').val(),
 	        "temperature": $('#temperature').val(),
+	        "clouds": $('#clouds').val(),
 	        "rain": $('#rain').val(),
+	        "wavehight": $('#wavehight').val(),
 	        "wavedirection": $('#wavedirection').val(),
+	        "time": $('#time').val(),
 	        "date": $('#date').val()        
 	    };
 	
