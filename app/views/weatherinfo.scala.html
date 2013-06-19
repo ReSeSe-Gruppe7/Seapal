@@ -20,58 +20,83 @@
 			<!-- Content -->
 			<div id="appWrapper" align="center">
 	            <br />
-	            <h2>Routen</h2>
+	            <h2>Weather Information</h2>
 	            <br />
 	            <div class="container-fluid">
 	            	<form class="form-horizontal"> 
 		            	<div class="row well" style="margin-left: 15%;">
-		            		<div class="span4" align="center">	            		
+		            		<div class="span4" align="center">	
+		            			
+		            			<div class="control-group">
+			            			<label class="control-label">City Name</label>
+			      						
+	     								<input type="text" name="cityname" id="cityname"/>
+    			        		</div>	
+		    					       		
 			            		<div class="control-group">
-			            			<label class="control-label">Titel</label>
-			            			<input type="text" name="titel" id="titel"/>
-			            		</div>
+			            			<label class="control-label">Wind Strength</label>
+			      						
+	     								<input type="text" name="windstrength" id="windstrength"/>
+    			        		</div>		
 			            		<div class="control-group">
-			            			<label class="control-label">Von</label>
-			            			<input type="text" name="von" id="von"/>
+			            			<label class="control-label">Air Pressure</label>
+			            			<input type="text" name="airpressure" id="airpressure"/>
 			                    </div>
 			                    <div class="control-group">
-			            			<label class="control-label">Nach</label>
-			            			<input type="text" name="von" id="nach"/>
+			            			<label class="control-label">Clouds</label>
+			            			
+      									<select name="clouds" id="clouds" size="0">
+	     									<option>Yes</option>
+	      									<option>No</option></select>
+    								
+			                    </div>     
+			                    <div class="control-group">
+			            			<label class="control-label">Wave Hight</label>
+			            			<input type="text" name="wavehight" id="wavehight"/>
+			                    </div>     
+			                    <div class="control-group">
+			            			<label class="control-label">Time</label>
+			            			
+      									<input type="time" name="observationtime">
+    								
 			                    </div>        
 		            		</div>
 		            		<div class="span4">
+
 		            			<div class="control-group">
-			            			<label class="control-label">Start</label>
-			            			<input type="text" name="titel" id="tstart"/>
+			            			<br/>
+    			        		</div>	
+		    					       	
+		            			<div class="control-group">
+			            			<label class="control-label">Wind Direction</label>
+			            			
+      									<input type="text" name="winddirection" id="winddirection"/>
+    								
 			            		</div>
 			            		<div class="control-group">
-			            			<label class="control-label">Ende</label>
-			            			<input type="text" name="von" id="tende"/>
+			            			<label class="control-label">Temperature</label>
+			            			
+      									<input type="text" name="temperature" id="temperature"/>
+						
 			                    </div>
 			                    <div class="control-group">
-			            			<label class="control-label">Dauer</label>
-			            			<input type="text" name="von" id="tdauer"/>
-			                    </div>
-		            		</div>
-		            		<div class="span4">
-		            			<div class="control-group">
-			            			<label class="control-label">Skipper</label>
-			            			<input type="text" name="von" id="skipper"/>
+			            			<label class="control-label">Rain</label>
+			            			
+      									<select name="rain" id="rain" size="0">
+	     									<option>Yes</option>
+	      									<option>No</option></select>
+    								
 			                    </div>
 			                    <div class="control-group">
-			            			<label class="control-label">Crew</label>
-			            			<textarea cols="20" rows="3" id="crew"></textarea>
-			                    </div>			                            
-		            		</div>
-		            		<div class="span4">
-		            			<div class="control-group">
-			            			<label class="control-label">Motor</label>
-			            			<input type="text" name="motor" id="motor"/>
-			                    </div>	
+			            			<label class="control-label">Wave Direction</label>
+			            			<input type="text" name="wavedirection" id="wavedirection"/>
+			                    </div>     
 			                    <div class="control-group">
-			            			<label class="control-label"></label>
-			            			<span>Tank gefÃ¼llt<input type="checkbox" value="false" name="tank" id="tank" style="margin-left:20px; margin-top:-5px;"/></span>
-			                    </div>			                            
+			            			<label class="control-label">Date</label>
+			            			
+      									<input type="date" name="observationdate">
+    								
+			                    </div>     
 		            		</div>
 		            	</div>      	 
 		            	<div class="control-group">
@@ -86,12 +111,12 @@
 	                <table class="appTable table table-hover" id="tableLinesClickable" cellspacing="0px" cellpadding="5px">
 	                    <thead>
 	                        <tr>
-	                            <th>Titel</th>
-	                            <th>Skipper</th>
-	                            <th>Start</th>
-	                            <th>Ende</th>
-	                            <th>Dauer</th>
-	                            <th>Motor</th>     
+	                            <th>Wind Strength</th>
+	                            <th>Wind Direction</th>
+	                            <th>Air Pressure</th>
+	                            <th>Temperature</th>
+	                            <th>Wave Hight</th>
+	                            <th>Wave Direction</th>
 	                            <th></th>
 	                        </tr>
 	                    </thead>

@@ -26,37 +26,36 @@ public class Weatherinfo extends Controller {
 		    ObjectNode respJSON = Json.newObject();
 		    int nextId = 0;
 
+
 		    try {
 			      query = conn.createStatement();
 
-		        query.execute("INSERT INTO seapal.tripinfo (titel, von, nach, skipper, crew, tstart, tende, tdauer, motor, tank) VALUES ("
-		                + "'" + data.get("titel") + "',"
-		                + "'" + data.get("von") + "',"
-		                + "'" + data.get("nach") + "',"
-		                + "'" + data.get("skipper") + "',"
-		                + "'" + data.get("crew") + "',"
-		                + "'" + data.get("tstart") + "',"
-		                + "'" + data.get("tende") + "',"
-		                + "'" + data.get("tdauer") + "',"
-		                + "'" + data.get("motor") + "',"
-		                + " " + data.get("tank") + ");");
+		        query.execute("INSERT INTO seapal.weatherinfo (windstrength, winddirection, airpressure, temperature, clouds, rain, wavehight, wavedirection) VALUES ("
+		                + "'" + data.get("windstrength") + "',"
+		                + "'" + data.get("winddirection") + "',"
+		                + "'" + data.get("airpressure") + "',"
+		                + "'" + data.get("temperature") + "',"
+		                + "'" + data.get("clouds") + "',"
+		                + "'" + data.get("rain") + "',"
+		                + "'" + data.get("wavehight") + "',"
+		                + "'" + data.get("wavedirection"));
 
-		         result = query.executeQuery("SHOW TABLE STATUS FROM seapal LIKE 'tripinfo'");
+		         result = query.executeQuery("SHOW TABLE STATUS FROM seapal LIKE 'weatherinfo'");
 		         if (result.next()) {
 		             nextId = result.getInt("Auto_increment");
 		         }
 		         conn.close();
 
-		         respJSON.put("tnr", "" + (nextId - 1));
+		         respJSON.put("inr", "" + (nextId - 1));
 
 		    } catch (Exception e) {
-		        respJSON.put("tnr", "Error: " + e);
+		        respJSON.put("inr", "Error: " + e);
 		    }
 
 		    return ok(respJSON);
 		  }
 		  
-		  public static Result delete(int tnr) {
+		  public static Result delete(int inr) {
 
 		    Connection conn = DB.getConnection();
 				Statement query;            
@@ -65,20 +64,20 @@ public class Weatherinfo extends Controller {
 		  
 		    try {
 			      query = conn.createStatement();
-		        query.execute("DELETE FROM seapal.tripinfo WHERE tnr = " + tnr);
+		        query.execute("DELETE FROM seapal.weatherinfo WHERE inr = " + inr);
 
 		        conn.close();
 
-		        respJSON.put("tnr", "ok");
+		        respJSON.put("inr", "ok");
 
 		    } catch (Exception e) {
-		        respJSON.put("tnr", "Error: " + e);
+		        respJSON.put("inr", "Error: " + e);
 		    }
 		  
 		    return ok(respJSON);
 		  }
 		  
-		  public static Result load(int tnr) {
+		  public static Result load(int inr) {
 		  
 		    Connection conn = DB.getConnection();
 				Statement query;
@@ -91,7 +90,7 @@ public class Weatherinfo extends Controller {
 		            	
 			          query = conn.createStatement();
 		    
-			          String sql = "SELECT * FROM seapal.tripinfo WHERE tnr = " + tnr;
+			          String sql = "SELECT * FROM seapal.weatherinfo WHERE inr = " + inr;
 			        
 			          result = query.executeQuery(sql);
 		            java.sql.ResultSetMetaData rsmd = result.getMetaData();
@@ -126,7 +125,7 @@ public class Weatherinfo extends Controller {
 		            	
 			            query = conn.createStatement();
 			 
-			            String sql = "SELECT * " + "FROM seapal.tripinfo ";
+			            String sql = "SELECT * " + "FROM seapal.weatherinfo ";
 			        
 			            result = query.executeQuery(sql);
 			        
@@ -134,20 +133,20 @@ public class Weatherinfo extends Controller {
 		              
 			        		  StringBuilder row = new StringBuilder();
 
-		                row.append("<tr class='selectable' id='" + result.getString("tnr") + "'>");
-		                row.append("<td>" + result.getString("titel") + "</td>");
-		                row.append("<td>" + result.getString("skipper") + "</td>");
-		                row.append("<td>" + result.getString("tstart") + "</td>");
-		                row.append("<td>" + result.getString("tende") + "</td>");
-		                row.append("<td>" + result.getString("tdauer") + "</td>");
-		                row.append("<td>" + result.getString("motor") + "</td>");
+		                row.append("<tr class='selectable' id='" + result.getString("inr") + "'>");
+		                row.append("<td>" + result.getString("windstrength") + "</td>");
+		                row.append("<td>" + result.getString("winddirection") + "</td>");
+		                row.append("<td>" + result.getString("airpressure") + "</td>");
+		                row.append("<td>" + result.getString("temperature") + "</td>");
+		                row.append("<td>" + result.getString("wavehight") + "</td>");
+		                row.append("<td>" + result.getString("wavedirection") + "</td>");
 		                row.append("<td style='width:30px; text-align:left;'><div class='btn-group'>");
-		                row.append("<a class='btn btn-small view' id='" + result.getString("tnr")
+		                row.append("<a class='btn btn-small view' id='" + result.getString("inr")
 		                  + "'><span><i class='icon-eye-open'></i></span></a>");
-		                row.append("<a class='btn btn-small remove' id='" + result.getString("tnr")
+		                row.append("<a class='btn btn-small remove' id='" + result.getString("inr")
 		                  + "'><span><i class='icon-remove'></i></span></a>");
-		                row.append("<a class='btn btn-small redirect' id='" + result.getString("tnr")
-		                  + "' href='app_tripinfo.html?tnr=" + result.getString("tnr")
+		                row.append("<a class='btn btn-small redirect' id='" + result.getString("inr")
+		                  + "' href='app_tripinfo.html?inr=" + result.getString("inr")
 		                  + "'><span><i class='icon-chevron-right'></i></span></a>");
 		                row.append("</div></td>");
 		                row.append("</tr>");
