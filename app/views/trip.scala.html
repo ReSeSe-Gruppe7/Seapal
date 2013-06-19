@@ -27,39 +27,39 @@
 	            <br />
 	            <div class="container-fluid">
 	            	<form class="form-horizontal"> 
-		            	<div class="row well" style="margin-left: 15%;">
+		            	<div id="inputFields" class="row well" style="margin-left: 15%;">
 		            		<div class="span4" align="center">	            		
-			            		<div class="control-group">
+			            		<div class="control-group" id="controltitel">
 			            			<label class="control-label">Titel</label>
-			            			<input type="text" name="titel" id="titel"/>
+			            			<input class ="check_none" type="text" name="titel" id="titel"/>
 			            		</div>
-			            		<div class="control-group">
+			            		<div class="control-group" id="controlvon">
 			            			<label class="control-label">Von</label>
-			            			<input type="text" name="von" id="von"/>
+			            			<input class ="check_none" type="text" name="von" id="von"/>
 			                    </div>
-			                    <div class="control-group">
+			                    <div class="control-group" id="controlnach">
 			            			<label class="control-label">Nach</label>
-			            			<input type="text" name="von" id="nach"/>
+			            			<input class ="check_none" type="text" name="nach" id="nach"/>
 			                    </div>        
 		            		</div>
 		            		<div class="span4">
-		            			<div class="control-group">
+		            			<div class="control-group" id="controlstart">
 			            			<label class="control-label">Start</label>
-			            			<input type="text" name="titel" id="tstart"/>
+			            			<input class ="check_date" type="text" name="tstart" id="tstart"/>
 			            		</div>
-			            		<div class="control-group">
+			            		<div class="control-group" id="controlende">
 			            			<label class="control-label">Ende</label>
-			            			<input type="text" name="von" id="tende"/>
+			            			<input class ="check_none" type="text" name="tende" id="tende"/>
 			                    </div>
-			                    <div class="control-group">
+			                    <div class="control-group" id="controldauer">
 			            			<label class="control-label">Dauer</label>
-			            			<input type="text" name="von" id="tdauer"/>
+			            			<input class ="check_number" type="text" name="tdauer" id="tdauer"/>
 			                    </div>
 		            		</div>
 		            		<div class="span4">
-		            			<div class="control-group">
+		            			<div class="control-group" id="controlskipper">
 			            			<label class="control-label">Skipper</label>
-			            			<input type="text" name="von" id="skipper"/>
+			            			<input class ="check_none" type="text" name="skipper" id="skipper"/>
 			                    </div>
 			                    <div class="control-group">
 			            			<label class="control-label">Crew</label>
@@ -67,9 +67,9 @@
 			                    </div>			                            
 		            		</div>
 		            		<div class="span4">
-		            			<div class="control-group">
+		            			<div class="control-group" id="controlmotor">
 			            			<label class="control-label">Motor</label>
-			            			<input type="text" name="motor" id="motor"/>
+			            			<input class ="check_number" type="text" name="motor" id="motor"/>
 			                    </div>	
 			                    <div class="control-group">
 			            			<label class="control-label"></label>

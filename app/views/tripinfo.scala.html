@@ -29,61 +29,72 @@
 	            <br />
 	            <div class="container-fluid" align="center">
 	            	<form class="form-horizontal"> 
-		            	<div class="row well" style="margin-left: 15%;" align="center">
+		            	<div id="inputFields" class="row well" style="margin-left: 15%;" align="center">
 		            		<div class="span4" align="center">	            		
-			            		<div class="control-group">
+			            		<div class="control-group" id="controlname">
 			            			<label class="control-label">Name</label>
-			            			<input class="input-medium" type="text" id="name"/>
+			            			<input class="input-medium check_none" type="text" id="name"/>
 			            		</div>
-			            		<div class="control-group">
-			            			<label class="control-label">Time</label>
-			            			<input class="input-medium" type="date" id="wdate"/>
+			            		<div class="control-group" id="controltime">
+			            			<label class="control-label">Zeit</label>
+			            			<input class="input-medium check_time" type="time" id="wdate"/>
 			                    </div>
-			                    <div class="control-group">
-			            			<label class="control-label">Date</label>
-			            			<input class="input-medium" type="date" id="wtime"/>
+			                    <div class="control-group" id="controldate">
+			            			<label class="control-label">Datum</label>
+			            			<input class="input-medium check_date" type="text" id="wtime"/>
 			                    </div>
 		            		</div>
 		            		<div class="span4">
-		            			<div class="control-group">
-			            			<label class="control-label">Latitude</label>
-			            			<input class="input-medium" type="text" id="lat"/>
+		            			<div class="control-group" id="controllatitude">
+			            			<label class="control-label">Breitengrad</label>
+			            			<input class="input-medium check_lat" type="text" id="lat"/>
 			            		</div>
-			            		<div class="control-group">
-			            			<label class="control-label">Longitude</label>
-			            			<input class="input-medium" type="text" id="lng"/>
+			            		<div class="control-group" id="controllongitude">
+			            			<label class="control-label">L&auml;ngengrad</label>
+			            			<input class="input-medium check_long" type="text" id="lng"/>
 			                    </div>
 			                    <div class="control-group">
 			            			<label class="control-label">Fahrt nach</label>
-			            			<select name="fahrtziel" id="marker" style="width: 165px;"></select>
+			            			<select name="fahrtziel" id="marker" style="width: 165px;">
+			            				<option>England</option>
+			            				<option>Hamburg</option>
+			            			</select>
 			                    </div>
 		            		</div>
 		            		<div class="span4">
-		            			<div class="control-group">
+		            			<div class="control-group" id="controlcog">
 			            			<label class="control-label">COG</label>
-			            			<input class="input-medium" type="text" id="cog"/>
+			            			<input class="input-medium check_cog" type="text" id="cog"/>
 			                    </div>
-			                    <div class="control-group">
+			                    <div class="control-group" id="controlsog">
 			            			<label class="control-label">SOG</label>
-			            			<input class="input-medium" type="text" id="sog"/>
+			            			<input class="input-medium check_sog" type="text" id="sog"/>
 			                    </div>  
 			                    <div class="control-group">
 			                    	<label class="control-label">Manoever</label>
-			            			<select name="manoever" id="manoever" style="width: 165px;"></select>
+			            			<select name="manoever" id="manoever" style="width: 165px;">
+			            				<option>Wende</option>
+			            				<option>Halse</option>
+			            			</select>
 			                    </div>                 
 		            		</div>
 		            		<div class="span4">
-		            			<div class="control-group">
+		            			<div class="control-group" id="controlbtm">
 			            			<label class="control-label">BTM</label>
-			            			<input class="input-medium" type="text" id="btm"/>
+			            			<input class="input-medium check_btm" type="text" id="btm"/>
 			                    </div>
-			                    <div class="control-group">
+			                    <div class="control-group" id="controldtm">
 			            			<label class="control-label">DTM</label>
-			            			<input class="input-medium" type="text" id="dtm"/>
+			            			<input class="input-medium check_dtm" type="text" id="dtm"/>
 			                    </div>
 			                    <div class="control-group">
 			            			<label class="control-label">Vorsegel</label>
-			            			<select name="vorsegel" id="vorsegel" style="width: 165px;"></select>
+			            			<select name="vorsegel" id="vorsegel" style="width: 165px;">
+			            				<option>Jager</option>
+			            				<option>Au&szlig;enkl&uuml;ver</option>
+			            				<option>Innenkl&uuml;ver</option>
+			            				<option>Fock</option>
+			            			</select>
 			            		</div>
 		            		</div>
 		            	</div>      	 

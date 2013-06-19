@@ -68,6 +68,56 @@ $(function() {
 	$('#save').click(function(event) {
 	
 		event.preventDefault();
+		
+		var query = window.location.search;
+		
+		var errorList = [];
+		var errorIds  = [];
+		var checkList = [];
+		
+		var inputNodes = $('#inputFields > div > div > input');
+		var divNodes = $('#inputFields > div div');
+		
+		for(var i = 0; i < divNodes.length; i++) {
+			$('#' + divNodes[i].id + '').attr('class', 'control-group' );
+		}
+		for(var i = 0; i < divNodes.length; i++) {
+			if(divNodes[i].id == "") {
+				divNodes.splice(i,1);
+			}
+		}
+		if(errorList.length == 0) {
+			errorList.push("</br>");
+		}
+		for(var i = 0; i < inputNodes.length; i++) {
+			if ($('#' + inputNodes[i].id + '').val() == "") {
+
+				errorList.push( "-> " + $('#' + divNodes[i].id + " label:first-child").text() + "</br>");
+				errorIds.push( divNodes[i].id );
+			}
+			var check = ($('#' + inputNodes[i].id + '').attr("class")).split(" ");
+			if(jQuery.inArray("check_number", check) > 0 && isNaN($('#' + inputNodes[i].id + '').val())) {
+				errorList.push( "-> " + $('#' + divNodes[i].id + " label:first-child").text() + " ist keine Zahl! </br>");
+				errorIds.push( divNodes[i].id );
+			}
+		}
+		
+		if (!(errorIds.length === 0)) {
+			$('#dialogTitle').text('Fehler');
+			$('#dialogMessage').text(
+					"Folgende Angaben sind nicht korrekt bzw. nicht ausgefüllt:");
+			$('#dialogMessage').append(errorList);	
+			
+			$('#messageBox').modal('show');
+			
+			/* run thru the inputfields and set die color to red */
+			for(var i = 0; i < errorIds.length; i++) {
+				$('#' + errorIds[i] + '').attr('class', '' + $('#' + errorIds[i] + '').attr('class') + ' error');
+			}
+			
+			return;
+		}
+		
 	
 		var json = {
             "titel": $('#titel').val(),
