@@ -2,10 +2,8 @@
 $(function() {
 
 	function loadEntry(infonr) { 
-			        	
-
 	    jQuery.get("app_weatherinfo_load.html", {'inr': infonr}, function(data) {
-
+			$('#date').val(data['date']);
 	        $('#windstrength').val(data['windstrength']);
 	        $('#winddirection').val(data['winddirection']);
 	        $('#airpressure').val(data['airpressure']);
@@ -14,8 +12,8 @@ $(function() {
 	        $('#rain').val(data['rain']);
 	        $('#wavehight').val(data['wavehight']);
 	        $('#wavedirection').val(data['wavedirection']);
-	      
-			
+
+
 	    }, "json");
 	}
 	
@@ -24,12 +22,14 @@ $(function() {
 		var entry = "";
 		
 		entry += "<tr class='selectable'>";
+	    entry += "<td>" + json.date + "</td>";
 	    entry += "<td>" + json.windstrength + "</td>";
 	    entry += "<td>" + json.winddirection + "</td>";
 	    entry += "<td>" + json.airpressure + "</td>";
 	    entry += "<td>" + json.temperature + "</td>";
 	    entry += "<td>" + json.wavehight + "</td>";
 	    entry += "<td>" + json.wavedirection + "</td>";
+	    
 	    entry += "<td style='width:30px; text-align:right;'><div class='btn-group'>";
 		entry += "<a class='btn btn-small view' id='" + inr + "'><span><i class='icon-eye-open'></i></span></a>";
 		entry += "<a class='btn btn-small remove' id='" + inr + "'><span><i class='icon-remove'></i></span></a>";
@@ -80,7 +80,8 @@ $(function() {
 	        "rain": $('#rain').val(),
 	        "wavehight": $('#wavehight').val(),
 	        "wavedirection": $('#wavedirection').val(),
-	               
+	        "date": $('#date').val()        
+
 	    };
 	
 	    jQuery.post("app_weatherinfo_insert.html", json, function(data) { 

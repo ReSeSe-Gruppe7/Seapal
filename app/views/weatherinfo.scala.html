@@ -32,7 +32,12 @@
 			      						
 	     								<input type="text" name="cityname" id="cityname"/>
     			        		</div>	
-		    					       		
+  							    <div class="control-group">
+			            			<label class="control-label">Date</label>
+			            			
+      									<input id="date" type="date" name="observationdate">
+    								
+			                    </div>  
 			            		<div class="control-group">
 			            			<label class="control-label">Wind Strength</label>
 			      						
@@ -52,21 +57,22 @@
 			                    </div>     
 			                    <div class="control-group">
 			            			<label class="control-label">Wave Hight</label>
-			            			<input type="text" name="wavehight" id="wavehight"/>
-			                    </div>     
-			                    <div class="control-group">
-			            			<label class="control-label">Time</label>
-			            			
-      									
+			            			<input type="text" name="wavehight" id="wavehight"/>   									
     								
 			                    </div>        
+
 		            		</div>
 		            		<div class="span4">
 
 		            			<div class="control-group">
 			            			<br/>
     			        		</div>	
-		    					       	
+		    					<div class="control-group">
+			            			<label class="control-label">Wave Direction</label>
+			            			
+      									<input type="text" name="wavedirection" id="wavedirection"/>
+    								
+			            		</div>       	
 		            			<div class="control-group">
 			            			<label class="control-label">Wind Direction</label>
 			            			
@@ -87,16 +93,8 @@
 	      									<option value="0">No</option>
 	      								</select>
     								
-			                    </div>
-			                    <div class="control-group">
-			            			<label class="control-label">Wave Direction</label>
-			            			<input type="text" name="wavedirection" id="wavedirection"/>
-			                    </div>     
-			                    <div class="control-group">
-			            			<label class="control-label">Date</label>
-			            			
-    								
-			                    </div>     
+			                    </div> 
+   
 		            		</div>
 		            	</div>      	 
 		            	<div class="control-group">
@@ -111,6 +109,7 @@
 	                <table class="appTable table table-hover" id="tableLinesClickable" cellspacing="0px" cellpadding="5px">
 	                    <thead>
 	                        <tr>
+	                        	<th>Date</th>
 	                            <th>Wind Strength</th>
 	                            <th>Wind Direction</th>
 	                            <th>Air Pressure</th>
