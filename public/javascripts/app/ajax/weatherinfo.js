@@ -2,8 +2,6 @@
 $(function() {
 
 	function loadEntry(infonr) { 
-			        	
-
 	    jQuery.get("app_weatherinfo_load.html", {'inr': infonr}, function(data) {
 
 	        $('#windstrength').val(data['windstrength']);
@@ -14,7 +12,6 @@ $(function() {
 	        $('#rain').val(data['rain']);
 	        $('#wavehight').val(data['wavehight']);
 	        $('#wavedirection').val(data['wavedirection']);
-	        $('#time').val(data['time']);
 			$('#date').val(data['date']);
 	    }, "json");
 	}
@@ -80,7 +77,6 @@ $(function() {
 	        "rain": $('#rain').val(),
 	        "wavehight": $('#wavehight').val(),
 	        "wavedirection": $('#wavedirection').val(),
-	        "time": $('#time').val(),
 	        "date": $('#date').val()        
 	    };
 	

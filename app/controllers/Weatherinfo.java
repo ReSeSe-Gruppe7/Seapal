@@ -21,16 +21,16 @@ public class Weatherinfo extends Controller {
 		  
 		    DynamicForm data = form().bindFromRequest();
 		    Connection conn = DB.getConnection();
-				Statement query;            
+			Statement query;            
 		    ResultSet result;
 		    ObjectNode respJSON = Json.newObject();
 		    int nextId = 0;
-
-
 		    try {
 			      query = conn.createStatement();
 
-		        query.execute("INSERT INTO seapal.weatherinfo (windstrength, winddirection, airpressure, temperature, clouds, rain, wavehight, wavedirection) VALUES ("
+query.execute("INSERT INTO seapal.weatherinfo (date,windstrength, winddirection, airpressure,"+ 
+		        	"temperature, clouds, rain, wavehight, wavedirection) VALUES ("   	
+		                + "'" + data.get("date") + "',"
 		                + "'" + data.get("windstrength") + "',"
 		                + "'" + data.get("winddirection") + "',"
 		                + "'" + data.get("airpressure") + "',"
@@ -38,7 +38,8 @@ public class Weatherinfo extends Controller {
 		                + "'" + data.get("clouds") + "',"
 		                + "'" + data.get("rain") + "',"
 		                + "'" + data.get("wavehight") + "',"
-		                + "'" + data.get("wavedirection"));
+		                + "'" + data.get("wavedirection")+"');");
+
 
 		         result = query.executeQuery("SHOW TABLE STATUS FROM seapal LIKE 'weatherinfo'");
 		         if (result.next()) {
@@ -134,6 +135,7 @@ public class Weatherinfo extends Controller {
 			        		  StringBuilder row = new StringBuilder();
 
 		                row.append("<tr class='selectable' id='" + result.getString("inr") + "'>");
+		                row.append("<td>" + result.getString("date") + "</td>");
 		                row.append("<td>" + result.getString("windstrength") + "</td>");
 		                row.append("<td>" + result.getString("winddirection") + "</td>");
 		                row.append("<td>" + result.getString("airpressure") + "</td>");
