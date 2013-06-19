@@ -14,8 +14,8 @@ $(function() {
 	        $('#rain').val(data['rain']);
 	        $('#wavehight').val(data['wavehight']);
 	        $('#wavedirection').val(data['wavedirection']);
-	        $('#time').val(data['time']);
-			$('#date').val(data['date']);
+	      
+			
 	    }, "json");
 	}
 	
@@ -80,8 +80,7 @@ $(function() {
 	        "rain": $('#rain').val(),
 	        "wavehight": $('#wavehight').val(),
 	        "wavedirection": $('#wavedirection').val(),
-	        "time": $('#time').val(),
-	        "date": $('#date').val()        
+	               
 	    };
 	
 	    jQuery.post("app_weatherinfo_insert.html", json, function(data) { 

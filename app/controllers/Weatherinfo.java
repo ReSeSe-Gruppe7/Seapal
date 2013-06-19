@@ -38,7 +38,7 @@ public class Weatherinfo extends Controller {
 		                + "'" + data.get("clouds") + "',"
 		                + "'" + data.get("rain") + "',"
 		                + "'" + data.get("wavehight") + "',"
-		                + "'" + data.get("wavedirection"));
+		                + "'" + data.get("wavedirection")+ "');");
 
 		         result = query.executeQuery("SHOW TABLE STATUS FROM seapal LIKE 'weatherinfo'");
 		         if (result.next()) {
